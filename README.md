@@ -1,3 +1,4 @@
+Para ver los reportes puedes abrir este enlace en una pestaña nueva
 [Ver reporte (GitHub Pages)](https://pamegutierrez.github.io/ABP_Modulo5_Escenarios_de_Comportamiento_BDD/)
 
 # BDD – Cucumber + Selenium (Firefox/Chrome) – Java 23 – VS Code – SauceDemo
@@ -53,5 +54,8 @@ mvn -Dcucumber.filter.tags="@Carrito" test
 - Password: `secret_sauce`
 
 ## 📊 Reportes
+[Ver reporte (GitHub Pages)](https://pamegutierrez.github.io/ABP_Modulo5_Escenarios_de_Comportamiento_BDD/)
+
 - HTML: `target/cucumber-report.html`
 - JSON: `target/cucumber.json`
+  
