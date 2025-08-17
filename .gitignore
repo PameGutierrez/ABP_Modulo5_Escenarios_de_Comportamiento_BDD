@@ -1,6 +1,4 @@
 /target/
-/evidencias/capturas/
-/evidencias/videos/
 !.vscode/
 .idea/
 *.iml

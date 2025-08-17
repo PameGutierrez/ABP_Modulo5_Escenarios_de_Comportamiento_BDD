@@ -11,7 +11,12 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
 public class ScreenshotUtil {
-    private static final String OUTPUT_DIR = "evidencias/capturas";
+
+    // Base absoluta = carpeta del proyecto (donde está tu pom.xml)
+    private static final Path BASE_DIR =
+            Paths.get(System.getProperty("user.dir"))        // raíz del proyecto
+                 .resolve("evidencias")
+                 .resolve("capturas");
 
     private static String sanitize(String s) {
         String n = Normalizer.normalize(s, Normalizer.Form.NFD)
@@ -23,12 +28,11 @@ public class ScreenshotUtil {
 
     public static void saveToFile(byte[] data, String scenarioName) {
         try {
-            Path outDir = Paths.get(OUTPUT_DIR);
-            if (!Files.exists(outDir)) Files.createDirectories(outDir);
+            if (!Files.exists(BASE_DIR)) Files.createDirectories(BASE_DIR);
 
             String ts = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMdd-HHmmss"));
             String base = sanitize(scenarioName);
-            File out = outDir.resolve(base + "-" + ts + ".png").toFile();
+            File out = BASE_DIR.resolve(base + "-" + ts + ".png").toFile();
 
             try (FileOutputStream fos = new FileOutputStream(out)) {
                 fos.write(data);

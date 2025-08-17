@@ -9,13 +9,14 @@ import org.openqa.selenium.firefox.FirefoxDriver;
 
 import io.cucumber.java.After;
 import io.cucumber.java.Before;
-import io.cucumber.java.Scenario;  
+import io.cucumber.java.Scenario;
 import io.github.bonigarcia.wdm.WebDriverManager;
 import utils.ScreenshotUtil;
 import utils.VideoRecorderUtil;
 
 public class Hooks {
     public static WebDriver driver;
+    private boolean shouldRecord = true; // control por -Dvideo=false
 
     private String scenarioNameSafe(Scenario scenario) {
         return scenario.getName()
@@ -25,7 +26,10 @@ public class Hooks {
 
     @Before("@ui")
     public void setUp(Scenario scenario) {
+        // lee banderas: -Dbrowser=chrome  /  -Dvideo=false
         String browser = System.getProperty("browser", "firefox").toLowerCase();
+        String videoFlag = System.getProperty("video", "true");
+        shouldRecord = !"false".equalsIgnoreCase(videoFlag);
 
         if ("chrome".equals(browser)) {
             WebDriverManager.chromedriver().setup();
@@ -36,7 +40,10 @@ public class Hooks {
         }
 
         driver.manage().window().maximize();
-        VideoRecorderUtil.startRecording(scenarioNameSafe(scenario));
+
+        if (shouldRecord) {
+            VideoRecorderUtil.startRecording(scenarioNameSafe(scenario));
+        }
     }
 
     @After("@ui")
@@ -46,12 +53,14 @@ public class Hooks {
                 byte[] screenshot = ((TakesScreenshot) driver).getScreenshotAs(OutputType.BYTES);
                 scenario.attach(screenshot, "image/png", "final-screenshot");
                 ScreenshotUtil.saveToFile(screenshot, scenario.getName());
-            } catch (ClassCastException | WebDriverException e) { 
+            } catch (ClassCastException | WebDriverException e) {
                 System.err.println("No se pudo tomar/adjuntar screenshot: " + e.getMessage());
             }
 
             try {
-                VideoRecorderUtil.stopRecording();
+                if (shouldRecord) {
+                    VideoRecorderUtil.stopRecording();
+                }
             } catch (RuntimeException e) {
                 System.err.println("No se pudo detener la grabación: " + e.getMessage());
             }
