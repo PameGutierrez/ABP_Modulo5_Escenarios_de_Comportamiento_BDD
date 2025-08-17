@@ -1,3 +1,5 @@
+[Ver reporte (GitHub Pages)](https://pamegutierrez.github.io/ABP_Modulo5_Escenarios_de_Comportamiento_BDD/)
+
 # BDD – Cucumber + Selenium (Firefox/Chrome) – Java 23 – VS Code – SauceDemo
 UI real con **Selenium** en **Firefox** o **Chrome** y **grabación de video** (FFmpeg) + **capturas automáticas** por escenario.
 
