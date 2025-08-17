@@ -1,0 +1,8 @@
+/target/
+/evidencias/capturas/
+/evidencias/videos/
+!.vscode/
+.idea/
+*.iml
+.DS_Store
+Thumbs.db
