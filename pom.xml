@@ -1,19 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0"
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
+
   <groupId>cl.pame.bdd</groupId>
   <artifactId>bdd-ui-video-java23</artifactId>
   <version>1.0.0</version>
-  <name>BDD UI Video Java23</name>
+  <name>ABP M5 – BDD UI (Java 23)</name>
+
   <properties>
-    <maven.compiler.source>23</maven.compiler.source>
-    <maven.compiler.target>23</maven.compiler.target>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <cucumber.version>7.14.0</cucumber.version>
     <selenium.version>4.21.0</selenium.version>
     <wdm.version>5.9.2</wdm.version>
     <junit.version>4.13.2</junit.version>
+    <maven.build.timestamp.format>yyyy-MM-dd HH:mm:ss</maven.build.timestamp.format>
   </properties>
 
   <dependencies>
@@ -39,7 +41,7 @@
       <scope>test</scope>
     </dependency>
 
-    <!-- Selenium + WebDriverManager (Firefox/Chrome) -->
+    <!-- Selenium + WebDriverManager -->
     <dependency>
       <groupId>org.seleniumhq.selenium</groupId>
       <artifactId>selenium-java</artifactId>
@@ -52,22 +54,43 @@
       <version>${wdm.version}</version>
       <scope>test</scope>
     </dependency>
+
+<!-- ExtentReports Cucumber 7 Adapter -->
+<dependency>
+  <groupId>tech.grasshopper</groupId>
+  <artifactId>extentreports-cucumber7-adapter</artifactId>
+  <version>1.14.0</version>
+  <scope>test</scope>
+</dependency>
+
   </dependencies>
 
   <build>
     <plugins>
+      <!-- Java 23 -->
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <version>3.13.0</version>
+        <configuration>
+          <release>23</release>
+        </configuration>
+      </plugin>
+
+      <!-- Ejecuta los tests -->
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-surefire-plugin</artifactId>
         <version>3.2.5</version>
         <configuration>
           <includes>
-            <include>**/*Test.java</include>
             <include>**/*Runner.java</include>
+            <include>**/*Test.java</include>
           </includes>
           <systemPropertyVariables>
             <cucumber.filter.tags>${cucumber.filter.tags}</cucumber.filter.tags>
             <browser>${browser}</browser>
+            <video>${video}</video>
           </systemPropertyVariables>
         </configuration>
       </plugin>
