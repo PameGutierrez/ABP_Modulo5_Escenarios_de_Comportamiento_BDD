@@ -2,6 +2,7 @@ package utils;
 
 import java.io.File;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -14,9 +15,9 @@ public class ScreenshotUtil {
 
     private static String sanitize(String s) {
         String n = Normalizer.normalize(s, Normalizer.Form.NFD)
-            .replaceAll("\\p{InCombiningDiacriticalMarks}+", "");
-        n = n.replaceAll("[^a-zA-Z0-9-_\. ]", "_");
-        n = n.replaceAll("\\s+", "_");
+            .replaceAll("\\p{InCombiningDiacriticalMarks}+", "")
+            .replaceAll("[^a-zA-Z0-9-_\\. ]", "_")
+            .replaceAll("\\s+", "_");
         return n;
     }
 
@@ -24,14 +25,16 @@ public class ScreenshotUtil {
         try {
             Path outDir = Paths.get(OUTPUT_DIR);
             if (!Files.exists(outDir)) Files.createDirectories(outDir);
+
             String ts = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMdd-HHmmss"));
             String base = sanitize(scenarioName);
             File out = outDir.resolve(base + "-" + ts + ".png").toFile();
+
             try (FileOutputStream fos = new FileOutputStream(out)) {
                 fos.write(data);
             }
             System.out.println("Screenshot guardado en: " + out.getAbsolutePath());
-        } catch (Exception e) {
+        } catch (IOException e) {
             System.err.println("No se pudo guardar el screenshot: " + e.getMessage());
         }
     }
